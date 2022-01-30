@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <body>
     <form action="/logout" method="post">
         <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-        <input type="submit" value="Sign Out"/>
+        <input type="submit" value="Выйти"/>
     </form>
 
     <h2>Новый заказ</h2>
@@ -18,6 +18,13 @@
     </form>
 
     <h2>Список заказов</h2>
+    <div>
+        <span><button onclick="window.location.href='/main'">Все</button></span>
+        <span><button onclick="window.location.href='/main?orderStatus=CANCELLED'">Отменены</button></span>
+        <span><button onclick="window.location.href='/main?orderStatus=ACCEPTED'">Ожидают</button></span>
+        <span><button onclick="window.location.href='/main?orderStatus=WORKING'">Назначены</button></span>
+        <span><button onclick="window.location.href='/main?orderStatus=FINISHED'">Завершены</button></span>
+    </div>
     <table class="table">
         <thead>
             <tr>
@@ -29,7 +36,7 @@
             </tr>
         </thead>
         <tbody>
-            {{#bookings}}
+            {{#orders}}
                 <tr>
                     <td>{{id}}</td>
                     <td>{{orderStatus}}</td>
@@ -37,7 +44,7 @@
                     <td>{{clientAddress}}</td>
                     <td>{{clientPhoneNumber}}</td>
                 </tr>
-            {{/bookings}}
+            {{/orders}}
         </tbody>
     </table>
 </body>

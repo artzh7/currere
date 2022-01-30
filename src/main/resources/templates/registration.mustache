@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <body>
-    <h2>Add new user</h2>
+    <h2>Новый пользователь</h2>
     {{#message}}
         {{message}}
     {{/message}}
     <form action="/registration" method="post">
         <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-        <div><label> User Name : <input type="text" name="username"/> </label></div>
-        <div><label> Password: <input type="password" name="password"/> </label></div>
-        <div><input type="submit" value="Sign In"/></div>
+        <div><label> Имя пользователя <input type="text" name="username"/> </label></div>
+        <div><label> Пароль <input type="password" name="password"/> </label></div>
+        <div><input type="submit" value="Зарегистрироваться"/></div>
     </form>
 </body>
 </html>
