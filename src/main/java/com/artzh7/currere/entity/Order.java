@@ -13,13 +13,15 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String orderStatus;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
+
     private String restaurantName;
     private String clientAddress;
     private String clientPhoneNumber;
 
     public Order(String restaurantName, String clientAddress, String clientPhoneNumber) {
-        this.orderStatus = "accepted";
+        this.orderStatus = OrderStatus.ACCEPTED;
         this.restaurantName = restaurantName;
         this.clientAddress = clientAddress;
         this.clientPhoneNumber = clientPhoneNumber;
