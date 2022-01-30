@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <body>
+    <form action="/logout" method="post">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+        <input type="submit" value="Sign Out"/>
+    </form>
+
     <h2>Новый заказ</h2>
-    <form method="post" action="/">
+    <form method="post" action="/main">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
         <div>
             <span>Ресторан</span> <input type="text" name="restaurantName"/> <br>
             <span>Адрес клиента</span> <input type="text" name="clientAddress"/> <br>

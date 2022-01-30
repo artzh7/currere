@@ -4,14 +4,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-@Entity
+@Entity @Table(name = "ordr")
 @Getter @Setter @NoArgsConstructor
-public class Booking {
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -21,7 +18,7 @@ public class Booking {
     private String clientAddress;
     private String clientPhoneNumber;
 
-    public Booking(String restaurantName, String clientAddress, String clientPhoneNumber) {
+    public Order(String restaurantName, String clientAddress, String clientPhoneNumber) {
         this.orderStatus = "accepted";
         this.restaurantName = restaurantName;
         this.clientAddress = clientAddress;
