@@ -2,14 +2,15 @@ package com.artzh7.currere.controller;
 
 import com.artzh7.currere.entity.Order;
 import com.artzh7.currere.entity.OrderStatus;
+import com.artzh7.currere.entity.User;
 import com.artzh7.currere.repo.OrderRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,9 +25,10 @@ public class MainController {
             Map<String, Object> model) {
         List<Order> orders;
         if (orderStatus.equals("ALL")) {
-            orders = orderRepo.findAll();
+            orders = orderRepo.findAllByOrderByIdDesc();
         } else {
-            orders = orderRepo.findAllByOrderStatus(OrderStatus.valueOf(orderStatus));
+            orders = orderRepo.findAllByOrderStatusOrderByIdDesc(
+                    OrderStatus.valueOf(orderStatus));
         }
         model.put("orders", orders);
 
@@ -37,10 +39,11 @@ public class MainController {
 
     @PostMapping("add")
     public String add(
+            @AuthenticationPrincipal User user,
             @RequestParam String restaurantName,
             @RequestParam String clientAddress,
             @RequestParam String clientPhoneNumber) {
-        Order booking = new Order(restaurantName, clientAddress, clientPhoneNumber);
+        Order booking = new Order(user, restaurantName, clientAddress, clientPhoneNumber);
         orderRepo.save(booking);
         return "redirect:/main";
     }

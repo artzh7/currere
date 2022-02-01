@@ -16,12 +16,18 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User author;
+
     private String restaurantName;
     private String clientAddress;
     private String clientPhoneNumber;
 
-    public Order(String restaurantName, String clientAddress, String clientPhoneNumber) {
+    public Order(User author, String restaurantName, String clientAddress, String clientPhoneNumber) {
         this.orderStatus = OrderStatus.ACCEPTED;
+        this.author = author;
+
         this.restaurantName = restaurantName;
         this.clientAddress = clientAddress;
         this.clientPhoneNumber = clientPhoneNumber;

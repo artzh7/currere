@@ -1,5 +1,12 @@
 package com.artzh7.currere.entity;
 
-public enum UserRole {
-    USER
+import org.springframework.security.core.GrantedAuthority;
+
+public enum UserRole implements GrantedAuthority {
+    USER;
+
+    @Override
+    public String getAuthority() {
+        return name();
+    }
 }
