@@ -7,12 +7,12 @@ import com.artzh7.currere.repo.OrderRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class MainController {
@@ -21,19 +21,19 @@ public class MainController {
 
     @GetMapping("/main")
     public String main(
-            @RequestParam(required = false, defaultValue = "ALL") String orderStatus,
-            Map<String, Object> model) {
+            @RequestParam(required = false, defaultValue = "") String orderStatus,
+            Model model) {
         List<Order> orders;
-        if (orderStatus.equals("ALL")) {
+        if (orderStatus.isEmpty()) {
             orders = orderRepo.findAllByOrderByIdDesc();
         } else {
             orders = orderRepo.findAllByOrderStatusOrderByIdDesc(
                     OrderStatus.valueOf(orderStatus));
         }
-        model.put("orders", orders);
+        model.addAttribute("orders", orders);
 
         OrderStatus[] statuses = OrderStatus.values();
-        model.put("statuses", statuses);
+        model.addAttribute("statuses", statuses);
         return "main";
     }
 
@@ -51,8 +51,8 @@ public class MainController {
     @GetMapping("/")
     public String greeting(
             @RequestParam(name = "name", required = false, defaultValue = "World") String name,
-            Map<String, Object> model) {
-        model.put("name", name);
+            Model model) {
+        model.addAttribute("name", name);
         return "greeting";
     }
 }
