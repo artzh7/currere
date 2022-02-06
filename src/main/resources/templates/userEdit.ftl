@@ -1,6 +1,11 @@
 <#import "parts/common.ftl" as c>
 
 <@c.page>
+    <header>
+        <a href="/">На главную</a>
+        <a href="/users">Пользователи</a>
+    </header>
+
     <h2>Редактирование пользователя</h2>
     <form action="/users" method="post">
         <input type="hidden" name="_csrf" value="${_csrf.token}">

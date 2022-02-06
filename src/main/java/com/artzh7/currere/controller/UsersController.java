@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -17,14 +18,14 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/users")
 @PreAuthorize("hasAuthority('ADMIN')")
-public class UserController {
+public class UsersController {
     @Autowired
     private UserRepo userRepo;
 
     @GetMapping
     public String userList(Model model) {
         model.addAttribute("users", userRepo.findAll());
-        return "userList";
+        return "users";
     }
 
     @PostMapping
@@ -55,5 +56,23 @@ public class UserController {
         model.addAttribute("user", user);
         model.addAttribute("roles", UserRole.values());
         return "userEdit";
+    }
+
+    @GetMapping("/add")
+    public String userAddForm() {
+        return "userAdd";
+    }
+
+    @PostMapping("/add")
+    public String userAdd(User user, Model model) {
+        User userFromDb = userRepo.findByUsername(user.getUsername());
+        if (userFromDb != null) {
+            model.addAttribute("message", "Пользователь существует!");
+            return "userAdd";
+        }
+        user.setActive(true);
+        user.setRoles(Collections.singleton(UserRole.USER));
+        userRepo.save(user);
+        return "redirect:/users";
     }
 }

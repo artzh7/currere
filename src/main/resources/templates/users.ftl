@@ -1,6 +1,11 @@
 <#import "parts/common.ftl" as c>
 
 <@c.page>
+    <header>
+        <a href="/">На главную</a>
+        <a href="/users/add">Регистрация</a>
+    </header>
+
     <h2>Список пользователей</h2>
     <table class="table">
         <thead>
