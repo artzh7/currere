@@ -16,9 +16,4 @@ public enum OrderStatus {
     OrderStatus(String title) {
         this.title = title;
     }
-
-    @Override
-    public String toString() {
-        return title;
-    }
 }

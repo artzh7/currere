@@ -42,7 +42,7 @@
         <#list orders as order>
             <tr>
                 <td>${order.id}</td>
-                <td>${order.orderStatus}</td>
+                <td>${order.orderStatus.title}</td>
                 <td>${order.restaurantName}</td>
                 <td>${order.clientAddress}</td>
                 <td>${order.clientPhoneNumber}</td>
