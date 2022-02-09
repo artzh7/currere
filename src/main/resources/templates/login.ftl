@@ -4,5 +4,4 @@
 <@c.page>
     <h2>Логин</h2>
     <@l.login "/login" "Войти"/>
-    <div><a href="/registration">Регистрация</a></div>
 </@c.page>

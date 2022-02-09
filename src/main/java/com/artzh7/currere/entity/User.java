@@ -26,6 +26,11 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<UserRole> roles;
 
+    private String displayedName;
+    private String address;
+    @Column(columnDefinition = "TEXT")
+    private String comment;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
