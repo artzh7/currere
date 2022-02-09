@@ -1,13 +1,11 @@
-<#import "parts/common.ftl" as c>
+<#import "../parts/common.ftl" as c>
+<#import "../parts/header.ftl" as h>
 
 <@c.page>
-    <header>
-        <a href="/">На главную</a>
-        <a href="/users">Пользователи</a>
-    </header>
+    <@h.admin/>
 
     <h2>Редактирование пользователя</h2>
-    <form action="/users" method="post">
+    <form action="/admin/users" method="post">
         <input type="hidden" name="_csrf" value="${_csrf.token}">
         <input type="hidden" name="userId" value="${user.id}">
 

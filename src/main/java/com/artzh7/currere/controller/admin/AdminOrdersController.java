@@ -1,4 +1,4 @@
-package com.artzh7.currere.controller;
+package com.artzh7.currere.controller.admin;
 
 import com.artzh7.currere.entity.Order;
 import com.artzh7.currere.entity.OrderStatus;
@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-@RequestMapping("/orders")
-public class OrdersController {
+@RequestMapping("/admin/orders")
+public class AdminOrdersController {
     @Autowired
     private OrderRepo orderRepo;
 
@@ -36,10 +36,10 @@ public class OrdersController {
 
         OrderStatus[] statuses = OrderStatus.values();
         model.addAttribute("statuses", statuses);
-        return "orders";
+        return "admin/orders";
     }
 
-    @PostMapping("add")
+    @PostMapping("/add")
     public String add(
             @AuthenticationPrincipal User user,
             @RequestParam String restaurantName,
@@ -47,6 +47,6 @@ public class OrdersController {
             @RequestParam String clientPhoneNumber) {
         Order booking = new Order(user, restaurantName, clientAddress, clientPhoneNumber);
         orderRepo.save(booking);
-        return "redirect:/orders";
+        return "redirect:/admin/orders";
     }
 }

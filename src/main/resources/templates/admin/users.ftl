@@ -1,10 +1,8 @@
-<#import "parts/common.ftl" as c>
+<#import "../parts/common.ftl" as c>
+<#import "../parts/header.ftl" as h>
 
 <@c.page>
-    <header>
-        <a href="/">На главную</a>
-        <a href="/users/add">Регистрация</a>
-    </header>
+    <@h.admin/>
 
     <h2>Список пользователей</h2>
     <table class="table">
@@ -20,7 +18,7 @@
             <tr>
                 <td>${user.username}</td>
                 <td><#list user.roles as role>${role}<#sep>, </#list></td>
-                <td><a href="/users/${user.id}">Редактировать</a></td>
+                <td><a href="/admin/users/${user.id}">Редактировать</a></td>
             </tr>
         </#list>
         </tbody>

@@ -1,3 +1,4 @@
+<!-- форма используется в логине и регистрации -->
 <#macro login path buttonValue>
     <div>
         <form action="${path}" method="post">
@@ -10,10 +11,8 @@
 </#macro>
 
 <#macro logout>
-    <div>
-        <form action="/logout" method="post">
-            <input type="hidden" name="_csrf" value="${_csrf.token}">
-            <input type="submit" value="Выйти"/>
-        </form>
-    </div>
+    <form action="/logout" method="post">
+        <input type="hidden" name="_csrf" value="${_csrf.token}">
+        <input type="submit" value="Выйти"/>
+    </form>
 </#macro>

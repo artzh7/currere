@@ -1,12 +1,11 @@
-<#import "parts/common.ftl" as c>
+<#import "../parts/common.ftl" as c>
+<#import "../parts/header.ftl" as h>
 
 <@c.page>
-    <header>
-        <a href="/">На главную</a>
-    </header>
+    <@h.admin/>
 
     <h2>Новый заказ</h2>
-    <form method="post" action="/orders/add">
+    <form method="post" action="/admin/orders/add">
         <input type="hidden" name="_csrf" value="${_csrf.token}">
         <div>
             <span>Ресторан</span> <input type="text" name="restaurantName"/> <br>
@@ -17,7 +16,7 @@
     </form>
 
     <h2>Список заказов</h2>
-    <form action="/orders" method="get">
+    <form action="/admin/orders" method="get">
         <div>
             <select name="orderStatus">
                 <option disabled selected>Выбрать статус</option>
