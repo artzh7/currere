@@ -27,6 +27,7 @@ public class User implements UserDetails {
     private Set<UserRole> roles;
 
     private String displayedName;
+    private String phoneNumber;
     private String address;
     @Column(columnDefinition = "TEXT")
     private String comment;

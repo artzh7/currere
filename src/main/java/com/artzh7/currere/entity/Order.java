@@ -23,13 +23,14 @@ public class Order {
     private String restaurantName;
     private String clientAddress;
     private String clientPhoneNumber;
+    private String orderComment;
 
-    public Order(User author, String restaurantName, String clientAddress, String clientPhoneNumber) {
+    public Order(User author, String restaurantName, String clientAddress, String clientPhoneNumber, String orderComment) {
         this.orderStatus = OrderStatus.ACCEPTED;
         this.author = author;
-
         this.restaurantName = restaurantName;
         this.clientAddress = clientAddress;
         this.clientPhoneNumber = clientPhoneNumber;
+        this.orderComment = orderComment;
     }
 }

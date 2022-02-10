@@ -26,11 +26,24 @@ public class AdminUsersController {
         return "admin/users";
     }
 
-    @PostMapping
-    public String userSave(
+    @PostMapping()
+    public String userSaveMain(
             @RequestParam String username,
+            @RequestParam("newPassword") String password1,
+            @RequestParam("confirmPassword") String password2,
             @RequestParam Map<String, String> form,
-            @RequestParam("userId") User user) {
+            @RequestParam("userId") User user,
+            Model model) {
+        if (!password1.isBlank() && !password2.isBlank()) {
+            if (!password1.equals(password2)) {
+                model.addAttribute("message", "Пароли не совпадают");
+                model.addAttribute("user", user);
+                model.addAttribute("roles", UserRole.values());
+                return "admin/userEdit";
+            } else {
+                user.setPassword(password1);
+            }
+        }
         user.setUsername(username);
 
         Set<String> roles = Arrays.stream(UserRole.values())
@@ -45,6 +58,19 @@ public class AdminUsersController {
             }
         }
 
+        userRepo.save(user);
+        return "redirect:/admin/users";
+    }
+
+    @PostMapping("/saveDetails")
+    public String userSaveDetails(
+            @RequestParam("userId") User user,
+            @RequestParam String displayedName,
+            @RequestParam String address,
+            @RequestParam String comment) {
+        user.setDisplayedName(displayedName);
+        user.setAddress(address);
+        user.setComment(comment);
         userRepo.save(user);
         return "redirect:/admin/users";
     }

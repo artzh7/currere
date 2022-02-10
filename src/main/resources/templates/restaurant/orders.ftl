@@ -4,16 +4,14 @@
 <@c.page>
     <@h.restaurant/>
 
-<#--    <h2>Новый заказ</h2>-->
-<#--    <form method="post" action="/admin/orders/add">-->
-<#--        <input type="hidden" name="_csrf" value="${_csrf.token}">-->
-<#--        <div>-->
-<#--            <span>Ресторан</span> <input type="text" name="restaurantName"/> <br>-->
-<#--            <span>Адрес клиента</span> <input type="text" name="clientAddress"/> <br>-->
-<#--            <span>Телефон клиента</span> <input type="text" name="clientPhoneNumber"/> <br>-->
-<#--            <button type="submit">Создать</button>-->
-<#--        </div>-->
-<#--    </form>-->
+    <h2>Новый заказ</h2>
+    <form method="post" action="/restaurant/orders/add">
+        <input type="hidden" name="_csrf" value="${_csrf.token}">
+        <div><label> Адрес клиента <input type="text" name="clientAddress"/> </label></div>
+        <div><label> Телефон клиента <input type="text" name="clientPhoneNumber"/> </label></div>
+        <div><label> Комментарий к заказу <textarea name="orderComment" rows="3" cols="40" style="resize: none"></textarea> </label></div>
+        <div><input type="submit" value="Создать"/></div>
+    </form>
 
     <h2>Список заказов</h2>
     <form action="/restaurant/orders" method="get">
@@ -33,9 +31,9 @@
         <tr>
             <th>ID</th>
             <th>Статус</th>
-            <th>Ресторан</th>
             <th>Адрес клиента</th>
             <th>Телефон клиента</th>
+            <th>Комментарий</th>
         </tr>
         </thead>
         <tbody>
@@ -43,9 +41,9 @@
             <tr>
                 <td>${order.id}</td>
                 <td>${order.orderStatus.title}</td>
-                <td>${order.restaurantName}</td>
-                <td>${order.clientAddress}</td>
-                <td>${order.clientPhoneNumber}</td>
+                <td>${order.clientAddress!}</td>
+                <td>${order.clientPhoneNumber!}</td>
+                <td>${order.orderComment!}</td>
             </tr>
         </#list>
         </tbody>

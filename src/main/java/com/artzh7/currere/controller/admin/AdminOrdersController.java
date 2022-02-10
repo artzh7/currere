@@ -44,9 +44,10 @@ public class AdminOrdersController {
             @AuthenticationPrincipal User user,
             @RequestParam String restaurantName,
             @RequestParam String clientAddress,
-            @RequestParam String clientPhoneNumber) {
-        Order booking = new Order(user, restaurantName, clientAddress, clientPhoneNumber);
-        orderRepo.save(booking);
+            @RequestParam String clientPhoneNumber,
+            @RequestParam String orderComment) {
+        Order order = new Order(user, restaurantName, clientAddress, clientPhoneNumber, orderComment);
+        orderRepo.save(order);
         return "redirect:/admin/orders";
     }
 }

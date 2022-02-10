@@ -9,6 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -37,5 +38,17 @@ public class RestaurantOrdersController {
         OrderStatus[] statuses = OrderStatus.values();
         model.addAttribute("statuses", statuses);
         return "restaurant/orders";
+    }
+
+    @PostMapping("/add")
+    public String add(
+            @AuthenticationPrincipal User user,
+            @RequestParam String clientAddress,
+            @RequestParam String clientPhoneNumber,
+            @RequestParam String orderComment) {
+        String restaurantName = user.getDisplayedName();
+        Order order = new Order(user, restaurantName, clientAddress, clientPhoneNumber, orderComment);
+        orderRepo.save(order);
+        return "redirect:/restaurant/orders";
     }
 }

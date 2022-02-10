@@ -7,12 +7,11 @@
     <h2>Новый заказ</h2>
     <form method="post" action="/admin/orders/add">
         <input type="hidden" name="_csrf" value="${_csrf.token}">
-        <div>
-            <span>Ресторан</span> <input type="text" name="restaurantName"/> <br>
-            <span>Адрес клиента</span> <input type="text" name="clientAddress"/> <br>
-            <span>Телефон клиента</span> <input type="text" name="clientPhoneNumber"/> <br>
-            <button type="submit">Создать</button>
-        </div>
+        <div><label> Ресторан <input type="text" name="restaurantName"/> </label></div>
+        <div><label> Адрес клиента <input type="text" name="clientAddress"/> </label></div>
+        <div><label> Телефон клиента <input type="text" name="clientPhoneNumber"/> </label></div>
+        <div><label> Комментарий к заказу <textarea name="orderComment" rows="3" cols="40" style="resize: none"></textarea> </label></div>
+        <div><input type="submit" value="Создать"/></div>
     </form>
 
     <h2>Список заказов</h2>
@@ -36,6 +35,7 @@
             <th>Ресторан</th>
             <th>Адрес клиента</th>
             <th>Телефон клиента</th>
+            <th>Комментарий</th>
         </tr>
         </thead>
         <tbody>
@@ -46,6 +46,7 @@
                 <td>${order.restaurantName}</td>
                 <td>${order.clientAddress}</td>
                 <td>${order.clientPhoneNumber}</td>
+                <td>${order.orderComment}</td>
             </tr>
         </#list>
         </tbody>
