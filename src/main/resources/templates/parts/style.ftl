@@ -1,6 +1,6 @@
 <style type="text/css">
     .table {
-        width: 50%;
+        width: 100%;
         margin-bottom: 20px;
         border: 1px solid #dddddd;
         border-collapse: collapse;

@@ -8,12 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 @Controller
 @RequestMapping("/admin/users")
 public class AdminUsersController {
@@ -31,7 +25,7 @@ public class AdminUsersController {
             @RequestParam String username,
             @RequestParam("newPassword") String password1,
             @RequestParam("confirmPassword") String password2,
-            @RequestParam Map<String, String> form,
+            @RequestParam String role,
             @RequestParam("userId") User user,
             Model model) {
         if (!password1.isBlank() && !password2.isBlank()) {
@@ -45,18 +39,7 @@ public class AdminUsersController {
             }
         }
         user.setUsername(username);
-
-        Set<String> roles = Arrays.stream(UserRole.values())
-                .map(UserRole::name)
-                .collect(Collectors.toSet());
-
-        user.getRoles().clear();
-
-        for (String key : form.keySet()) {
-            if (roles.contains(key)) {
-                user.getRoles().add(UserRole.valueOf(key));
-            }
-        }
+        user.setRole(UserRole.valueOf(role));
 
         userRepo.save(user);
         return "redirect:/admin/users";
@@ -67,11 +50,19 @@ public class AdminUsersController {
             @RequestParam("userId") User user,
             @RequestParam String displayedName,
             @RequestParam String address,
+            @RequestParam String phoneNumber,
             @RequestParam String comment) {
         user.setDisplayedName(displayedName);
         user.setAddress(address);
+        user.setPhoneNumber(phoneNumber);
         user.setComment(comment);
         userRepo.save(user);
+        return "redirect:/admin/users";
+    }
+
+    @PostMapping("/delete")
+    public String userDelete(@RequestParam("userId") User user) {
+        userRepo.delete(user);
         return "redirect:/admin/users";
     }
 
@@ -94,8 +85,9 @@ public class AdminUsersController {
             model.addAttribute("message", "Пользователь существует!");
             return "admin/userAdd";
         }
+        user.setRole(UserRole.USER);
         user.setActive(true);
-        user.setRoles(Collections.singleton(UserRole.USER));
+        user.setWorking(false);
         userRepo.save(user);
         return "redirect:/admin/users";
     }

@@ -28,11 +28,13 @@ public class RestaurantProfileController {
     public String profileSave(
             @RequestParam String displayedName,
             @RequestParam String address,
+            @RequestParam String phoneNumber,
             @RequestParam String comment,
             @RequestParam("userId") User user
     ) {
         user.setDisplayedName(displayedName);
         user.setAddress(address);
+        user.setPhoneNumber(phoneNumber);
         user.setComment(comment);
         userRepo.save(user);
         return "redirect:/restaurant";

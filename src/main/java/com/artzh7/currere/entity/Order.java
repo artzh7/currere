@@ -17,8 +17,12 @@ public class Order {
     private OrderStatus orderStatus;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "author_id")
     private User author;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "courier_id")
+    private User courier;
 
     private String restaurantName;
     private String clientAddress;
@@ -28,6 +32,7 @@ public class Order {
     public Order(User author, String restaurantName, String clientAddress, String clientPhoneNumber, String orderComment) {
         this.orderStatus = OrderStatus.ACCEPTED;
         this.author = author;
+        this.courier = null;
         this.restaurantName = restaurantName;
         this.clientAddress = clientAddress;
         this.clientPhoneNumber = clientPhoneNumber;

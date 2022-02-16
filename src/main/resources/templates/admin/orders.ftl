@@ -36,6 +36,8 @@
             <th>Адрес клиента</th>
             <th>Телефон клиента</th>
             <th>Комментарий</th>
+            <th>Курьер</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -47,6 +49,29 @@
                 <td>${order.clientAddress}</td>
                 <td>${order.clientPhoneNumber}</td>
                 <td>${order.orderComment}</td>
+                <td>
+                    <#if order.courier??>
+                        ${order.courier.displayedName}
+                    <#else>
+                        Не назначен
+                    </#if>
+                </td>
+                <td>
+                    <#if order.orderStatus.name() == "ACCEPTED">
+                        <form method="post" action="/admin/orders/appoint">
+                            <input type="hidden" name="_csrf" value="${_csrf.token}">
+                            <input type="hidden" name="orderId" value="${order.id}">
+                            <div><input type="submit" value="✔"/></div>
+                        </form>
+                    </#if>
+                    <#if (order.orderStatus.name() != "CANCELLED") && (order.orderStatus.name() != "FINISHED")>
+                        <form method="post" action="/admin/orders/cancel">
+                            <input type="hidden" name="_csrf" value="${_csrf.token}">
+                            <input type="hidden" name="orderId" value="${order.id}">
+                            <div><input type="submit" value="✖"/></div>
+                        </form>
+                    </#if>
+                </td>
             </tr>
         </#list>
         </tbody>

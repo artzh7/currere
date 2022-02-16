@@ -9,7 +9,7 @@
         <thead>
         <tr>
             <th>Имя пользователя</th>
-            <th>Роли</th>
+            <th>Роль</th>
             <th></th>
         </tr>
         </thead>
@@ -17,7 +17,7 @@
         <#list users as user>
             <tr>
                 <td>${user.username}</td>
-                <td><#list user.roles as role>${role}<#sep>, </#list></td>
+                <td>${user.role.title}</td>
                 <td><a href="/admin/users/${user.id}">Редактировать</a></td>
             </tr>
         </#list>
