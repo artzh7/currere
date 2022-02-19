@@ -2,10 +2,7 @@
 <#import "../parts/header.ftl" as h>
 <#import "../parts/order.ftl" as o>
 
-<@c.page>
-    <@h.restaurant/>
-
-    <h2>Новый заказ</h2>
+<@c.page "restaurant">
     <@o.create "restaurant" "/restaurant/orders/add"/>
 
     <h2>Список заказов</h2>

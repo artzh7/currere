@@ -1,9 +1,7 @@
 <#import "../parts/common.ftl" as c>
 <#import "../parts/header.ftl" as h>
 
-<@c.page>
-    <@h.admin/>
-
+<@c.page "admin">
     <h2>Список пользователей</h2>
     <table class="table">
         <thead>

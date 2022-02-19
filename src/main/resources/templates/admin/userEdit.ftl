@@ -1,9 +1,8 @@
 <#import "../parts/common.ftl" as c>
 <#import "../parts/header.ftl" as h>
+<#import "../parts/profile.ftl" as p>
 
-<@c.page>
-    <@h.admin/>
-
+<@c.page "admin">
     <h2>Редактирование пользователя</h2>
     ${message!}
     <form action="/admin/users/" method="post">
@@ -24,17 +23,7 @@
     </form>
 
     <h2>Обновление информации о пользователе</h2>
-    <form action="/admin/users/saveDetails" method="post">
-        <input type="hidden" name="_csrf" value="${_csrf.token}">
-        <input type="hidden" name="userId" value="${user.id}">
-
-        <div><label> Отображаемое имя <input type="text" name="displayedName" value="${user.displayedName!}"/> </label></div>
-        <div><label> Адрес <input type="text" name="address" value="${user.address!}"/> </label></div>
-        <div><label> Телефон <input type="text" name="phoneNumber" value="${user.phoneNumber!}"/> </label></div>
-        <div><label> Комментарий <textarea name="comment" rows="3" cols="40" style="resize: none" placeholder="${user.comment!}"></textarea> </label></div>
-
-        <div><input type="submit" value="Сохранить"></div>
-    </form>
+    <@p.edit "/admin/users/saveDetails"/>
 
     <h2>Удаление пользователя</h2>
     <form action="/admin/users/delete" method="post">

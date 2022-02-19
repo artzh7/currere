@@ -2,9 +2,7 @@
 <#import "../parts/header.ftl" as h>
 <#import "../parts/order.ftl" as o>
 
-<@c.page>
-    <@h.courier/>
-
+<@c.page "courier">
     <h2>${orderListTitle}</h2>
     <@o.list "courier"/>
 </@c.page>

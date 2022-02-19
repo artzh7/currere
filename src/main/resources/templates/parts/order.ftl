@@ -1,4 +1,5 @@
 <#macro create role action>
+    <h2>Новый заказ</h2>
     <form method="post" action="${action}">
         <input type="hidden" name="_csrf" value="${_csrf.token}">
         <#if role == "admin">
