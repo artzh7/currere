@@ -3,15 +3,12 @@ package com.artzh7.currere.controller.restaurant;
 import com.artzh7.currere.entity.Order;
 import com.artzh7.currere.entity.OrderStatus;
 import com.artzh7.currere.entity.User;
-import com.artzh7.currere.repo.OrderRepo;
+import com.artzh7.currere.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,20 +16,14 @@ import java.util.List;
 @RequestMapping("/restaurant/orders")
 public class RestaurantOrdersController {
     @Autowired
-    private OrderRepo orderRepo;
+    private OrderService orderService;
 
     @GetMapping()
     public String orderList(
             @AuthenticationPrincipal User user,
             @RequestParam(required = false, defaultValue = "") String orderStatus,
             Model model) {
-        List<Order> orders;
-        if (orderStatus.isEmpty()) {
-            orders = orderRepo.findAllByAuthorOrderByIdDesc(user);
-        } else {
-            orders = orderRepo.findAllByAuthorAndOrderStatusOrderByIdDesc(
-                    user, OrderStatus.valueOf(orderStatus));
-        }
+        List<Order> orders = orderService.getRestaurantOrderList(user, orderStatus);
         model.addAttribute("orders", orders);
 
         OrderStatus[] statuses = OrderStatus.values();
@@ -46,9 +37,21 @@ public class RestaurantOrdersController {
             @RequestParam String clientAddress,
             @RequestParam String clientPhoneNumber,
             @RequestParam String orderComment) {
-        String restaurantName = user.getDisplayedName();
-        Order order = new Order(user, restaurantName, clientAddress, clientPhoneNumber, orderComment);
-        orderRepo.save(order);
+        Order order = new Order(user,
+                user.getDisplayedName(), user.getAddress(),
+                user.getPhoneNumber(), user.getComment(),
+                clientAddress, clientPhoneNumber, orderComment);
+        orderService.create(order);
         return "redirect:/restaurant/orders";
+    }
+
+    @GetMapping("/{id}")
+    public String orderInfo(@AuthenticationPrincipal User user, @PathVariable Long id, Model model) {
+        Order order = orderService.getOrder(user, id);
+        if (order == null)
+            return "redirect:/restaurant/orders";
+
+        model.addAttribute("order", order);
+        return "restaurant/orderInfo";
     }
 }

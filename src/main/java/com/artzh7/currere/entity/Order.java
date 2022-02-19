@@ -25,15 +25,28 @@ public class Order {
     private User courier;
 
     private String restaurantName;
+    private String restaurantAddress;
+    private String restaurantPhoneNumber;
+    @Column(columnDefinition = "TEXT")
+    private String restaurantComment;
+
     private String clientAddress;
     private String clientPhoneNumber;
     private String orderComment;
 
-    public Order(User author, String restaurantName, String clientAddress, String clientPhoneNumber, String orderComment) {
+    public Order(User author,
+                 String restaurantName, String restaurantAddress,
+                 String restaurantPhoneNumber, String restaurantComment,
+                 String clientAddress, String clientPhoneNumber, String orderComment) {
         this.orderStatus = OrderStatus.ACCEPTED;
         this.author = author;
         this.courier = null;
+
         this.restaurantName = restaurantName;
+        this.restaurantAddress = restaurantAddress;
+        this.restaurantPhoneNumber = restaurantPhoneNumber;
+        this.restaurantComment = restaurantComment;
+
         this.clientAddress = clientAddress;
         this.clientPhoneNumber = clientPhoneNumber;
         this.orderComment = orderComment;

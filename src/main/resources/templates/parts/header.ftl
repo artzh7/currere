@@ -26,8 +26,9 @@
 <#macro courier>
     <header>
         <ul>
-            <li><a href="/courier">Текущие заказы</a></li>
-            <li><a href="/courier?orderStatus=FINISHED">Завершенные</a></li>
+            <li><a href="/courier/orders">Текущие заказы</a></li>
+            <li><a href="/courier/orders/history">История заказов</a></li>
+            <li><a href="#">СМЕНА</a></li>
             <li><@l.logout/></li>
         </ul>
     </header>
