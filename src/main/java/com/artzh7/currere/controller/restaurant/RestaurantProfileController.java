@@ -1,7 +1,7 @@
 package com.artzh7.currere.controller.restaurant;
 
 import com.artzh7.currere.entity.User;
-import com.artzh7.currere.repo.UserRepo;
+import com.artzh7.currere.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/restaurant/profile")
 public class RestaurantProfileController {
     @Autowired
-    private UserRepo userRepo;
+    private UserService userService;
 
     @GetMapping
     public String profileEdit(@AuthenticationPrincipal User user, Model model) {
-        User userToEdit = userRepo.findByUsername(user.getUsername());
+        User userToEdit = userService.findByUsername(user.getUsername());
         model.addAttribute("user", userToEdit);
         return "restaurant/profileEdit";
     }
@@ -36,7 +36,7 @@ public class RestaurantProfileController {
         user.setAddress(address);
         user.setPhoneNumber(phoneNumber);
         user.setComment(comment);
-        userRepo.save(user);
+        userService.save(user);
         return "redirect:/restaurant";
     }
 }

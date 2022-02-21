@@ -26,9 +26,9 @@
 <#macro courier>
     <header>
         <ul>
-            <li><a href="/courier/orders">Текущие заказы</a></li>
-            <li><a href="/courier/orders/history">История заказов</a></li>
-            <li><a href="#">СМЕНА</a></li>
+            <li><a href="/courier">Главная</a></li>
+            <li><a href="/courier/orders">Заказы</a></li>
+            <li><a href="/courier/orders/history">История</a></li>
             <li><@l.logout/></li>
         </ul>
     </header>

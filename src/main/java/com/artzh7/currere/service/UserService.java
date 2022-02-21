@@ -1,19 +1,15 @@
 package com.artzh7.currere.service;
 
-import com.artzh7.currere.repo.UserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
+import com.artzh7.currere.entity.User;
 
-@Service
-public class UserService implements UserDetailsService {
-    @Autowired
-    private UserRepo userRepo;
+import java.util.List;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepo.findByUsername(username);
-    }
+public interface UserService {
+    List<User> findAll();
+    User findByUsername(String username);
+    List<User> getWorkingCouriers();
+
+    void save(User user);
+    void delete(User user);
+    void shift(User user, OrderService orderService) throws Exception;
 }

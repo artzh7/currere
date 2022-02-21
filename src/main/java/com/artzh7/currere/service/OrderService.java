@@ -15,6 +15,6 @@ public interface OrderService {
     Order getOrder(User user, Long id);
 
     void create(Order order);
-    void appoint(Order order);
+    void appoint(Order order, UserService userService);
     void cancel(Order order);
 }

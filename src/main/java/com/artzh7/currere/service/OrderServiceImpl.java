@@ -5,7 +5,6 @@ import com.artzh7.currere.entity.OrderStatus;
 import com.artzh7.currere.entity.User;
 import com.artzh7.currere.entity.UserRole;
 import com.artzh7.currere.repo.OrderRepo;
-import com.artzh7.currere.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +16,6 @@ import java.util.Set;
 public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderRepo orderRepo;
-    @Autowired
-    private UserRepo userRepo;
 
     @Override
     public List<Order> getOrderList(String orderStatus) {
@@ -79,8 +76,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void appoint(Order order) {
-        List<User> workingCouriers = userRepo.findAllByRoleAndWorking(UserRole.COURIER, true);
+    public void appoint(Order order, UserService userService) {
+        List<User> workingCouriers = userService.getWorkingCouriers();
         if (!workingCouriers.isEmpty()) {
             int randomIndex = (int) (Math.random() * workingCouriers.size());
             order.setCourier(workingCouriers.get(randomIndex));

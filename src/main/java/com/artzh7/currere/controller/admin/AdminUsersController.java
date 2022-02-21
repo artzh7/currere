@@ -2,7 +2,7 @@ package com.artzh7.currere.controller.admin;
 
 import com.artzh7.currere.entity.User;
 import com.artzh7.currere.entity.UserRole;
-import com.artzh7.currere.repo.UserRepo;
+import com.artzh7.currere.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/admin/users")
 public class AdminUsersController {
     @Autowired
-    private UserRepo userRepo;
+    private UserService userService;
 
     @GetMapping
     public String userList(Model model) {
-        model.addAttribute("users", userRepo.findAll());
+        model.addAttribute("users", userService.findAll());
         return "admin/users";
     }
 
@@ -41,7 +41,7 @@ public class AdminUsersController {
         user.setUsername(username);
         user.setRole(UserRole.valueOf(role));
 
-        userRepo.save(user);
+        userService.save(user);
         return "redirect:/admin/users";
     }
 
@@ -56,13 +56,13 @@ public class AdminUsersController {
         user.setAddress(address);
         user.setPhoneNumber(phoneNumber);
         user.setComment(comment);
-        userRepo.save(user);
+        userService.save(user);
         return "redirect:/admin/users";
     }
 
     @PostMapping("/delete")
     public String userDelete(@RequestParam("userId") User user) {
-        userRepo.delete(user);
+        userService.delete(user);
         return "redirect:/admin/users";
     }
 
@@ -80,7 +80,7 @@ public class AdminUsersController {
 
     @PostMapping("/add")
     public String userAdd(User user, Model model) {
-        User userFromDb = userRepo.findByUsername(user.getUsername());
+        User userFromDb = userService.findByUsername(user.getUsername());
         if (userFromDb != null) {
             model.addAttribute("message", "Пользователь существует!");
             return "admin/userAdd";
@@ -88,7 +88,7 @@ public class AdminUsersController {
         user.setRole(UserRole.USER);
         user.setActive(true);
         user.setWorking(false);
-        userRepo.save(user);
+        userService.save(user);
         return "redirect:/admin/users";
     }
 }

@@ -4,6 +4,7 @@ import com.artzh7.currere.entity.Order;
 import com.artzh7.currere.entity.OrderStatus;
 import com.artzh7.currere.entity.User;
 import com.artzh7.currere.service.OrderService;
+import com.artzh7.currere.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,8 @@ import java.util.List;
 public class AdminOrdersController {
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping()
     public String orderList(
@@ -56,7 +59,7 @@ public class AdminOrdersController {
 
     @PostMapping("/appoint")
     public String appoint(@RequestParam(name = "orderId") Order order) {
-        orderService.appoint(order);
+        orderService.appoint(order, userService);
         return "redirect:/admin/orders";
     }
 
