@@ -87,9 +87,25 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public void appoint(Order order, User courier, UserService userService) {
+        if (courier.isWorking()) {
+            order.setCourier(courier);
+            if (order.getOrderStatus() == OrderStatus.ACCEPTED) {
+                order.setOrderStatus(OrderStatus.IN_WORK);
+            }
+            orderRepo.save(order);
+        }
+    }
+
+    @Override
     public void cancel(Order order) {
         order.setOrderStatus(OrderStatus.CANCELLED);
         order.setCourier(null);
         orderRepo.save(order);
+    }
+
+    @Override
+    public void delete(Order order) {
+        orderRepo.delete(order);
     }
 }

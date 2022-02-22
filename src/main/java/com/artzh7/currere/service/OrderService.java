@@ -16,5 +16,7 @@ public interface OrderService {
 
     void create(Order order);
     void appoint(Order order, UserService userService);
+    void appoint(Order order, User courier, UserService userService);
     void cancel(Order order);
+    void delete(Order order);
 }

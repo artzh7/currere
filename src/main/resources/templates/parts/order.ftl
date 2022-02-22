@@ -31,7 +31,7 @@
                 <th>Курьер</th>
             </#if>
             <#if role == "admin">
-                <th></th>
+                <th>Действия</th>
             </#if>
         </tr>
         </thead>
@@ -46,31 +46,53 @@
                 <td>${order.clientAddress}</td>
                 <td>${order.clientPhoneNumber}</td>
                 <td>${order.orderComment}</td>
-                <#if role == "restaurant" || role == "admin">
-                    <td>
+                <td>
+                    <#if role = "restaurant" || (role = "admin"
+                                                && (order.orderStatus.name() == "FINISHED"
+                                                    || order.orderStatus.name() == "CANCELLED"))>
                         <#if order.courier??>
                             ${order.courier.displayedName}
                         <#else>
                             Не назначен
                         </#if>
-                    </td>
-                </#if>
+                    <#elseif role = "admin">
+                        <form action="/admin/orders/appointOnCourier" method="post">
+                            <input type="hidden" name="_csrf" value="${_csrf.token}">
+                            <input type="hidden" name="orderId" value="${order.id}">
+                            <span><label>
+                                    <select name="courierId">
+                                        <#if order.courier??><#else><option disabled selected>Назначить курьера</option></#if>
+                                        <#list couriers as c>
+                                            <option value="${c.id}" <#if order.courier?? && order.courier.id == c.id>selected</#if>>${c.displayedName}</option>
+                                        </#list>
+                                    </select>
+                                </label>
+                            </span>
+                            <span><input type="submit" title="Назначить на выбранного курьера" value="✔️"/></span>
+                        </form>
+                    </#if>
+                </td>
                 <#if role == "admin">
                     <td>
                         <#if order.orderStatus.name() == "ACCEPTED">
-                            <form method="post" action="/admin/orders/appoint">
+                            <form hidden id="appointOnRandom" method="post" action="/admin/orders/appointOnRandom">
                                 <input type="hidden" name="_csrf" value="${_csrf.token}">
                                 <input type="hidden" name="orderId" value="${order.id}">
-                                <div><input type="submit" value="✔"/></div>
                             </form>
+                            <span><input form="appointOnRandom" type="submit" title="Назначить автоматически" value="✅"></span>
                         </#if>
                         <#if (order.orderStatus.name() != "CANCELLED") && (order.orderStatus.name() != "FINISHED")>
-                            <form method="post" action="/admin/orders/cancel">
+                            <form hidden id="cancel" method="post" action="/admin/orders/cancel">
                                 <input type="hidden" name="_csrf" value="${_csrf.token}">
                                 <input type="hidden" name="orderId" value="${order.id}">
-                                <div><input type="submit" value="✖"/></div>
                             </form>
+                            <span><input form="cancel" type="submit" title="Отменить заказ" value="⭕"></span>
                         </#if>
+                        <form hidden id="delete" method="post" action="/admin/orders/delete">
+                            <input type="hidden" name="_csrf" value="${_csrf.token}">
+                            <input type="hidden" name="orderId" value="${order.id}">
+                        </form>
+                        <span><input form="delete" type="submit" title="УДАЛИТЬ заказ" value="🛑"></span>
                     </td>
                 </#if>
             </tr>

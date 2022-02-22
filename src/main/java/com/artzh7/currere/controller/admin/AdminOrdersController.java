@@ -28,6 +28,9 @@ public class AdminOrdersController {
         List<Order> orders = orderService.getOrderList(orderStatus);
         model.addAttribute("orders", orders);
 
+        List<User> workingCouriers = userService.getWorkingCouriers();
+        model.addAttribute("couriers", workingCouriers);
+
         OrderStatus[] statuses = OrderStatus.values();
         model.addAttribute("statuses", statuses);
         return "admin/orders";
@@ -57,15 +60,32 @@ public class AdminOrdersController {
         return "admin/orderInfo";
     }
 
-    @PostMapping("/appoint")
-    public String appoint(@RequestParam(name = "orderId") Order order) {
+    @PostMapping("/appointOnRandom")
+    public String appointOnRandom(@RequestParam(name = "orderId") Order order) {
         orderService.appoint(order, userService);
+        return "redirect:/admin/orders";
+    }
+
+    @PostMapping("/appointOnCourier")
+    public String appointOnCourier(
+            @RequestParam(name = "orderId") Order order,
+            @RequestParam(name = "courierId", defaultValue = "") User courier) {
+        if (courier == null) {
+            return "redirect:/admin/orders";
+        }
+        orderService.appoint(order, courier, userService);
         return "redirect:/admin/orders";
     }
 
     @PostMapping("/cancel")
     public String cancel(@RequestParam(name = "orderId") Order order) {
         orderService.cancel(order);
+        return "redirect:/admin/orders";
+    }
+
+    @PostMapping("/delete")
+    public String delete(@RequestParam(name = "orderId") Order order) {
+        orderService.delete(order);
         return "redirect:/admin/orders";
     }
 }
