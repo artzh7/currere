@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,8 @@ import java.util.List;
 public class UserServiceImpl implements UserDetailsService, UserService {
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -40,6 +43,44 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public void save(User user) {
         userRepo.save(user);
+    }
+
+    @Override
+    public boolean userSaveMain(User user, String username, String password1, String password2, String role) {
+        if (!password1.isBlank() && !password2.isBlank()) {
+            if (!password1.equals(password2)) {
+                return false;
+            } else {
+                user.setPassword(passwordEncoder.encode(password1));
+            }
+        }
+        user.setUsername(username);
+        user.setRole(UserRole.valueOf(role));
+        userRepo.save(user);
+        return true;
+    }
+
+    @Override
+    public void userSaveDetails(User user, String displayedName, String address, String phoneNumber, String comment) {
+        user.setDisplayedName(displayedName);
+        user.setAddress(address);
+        user.setPhoneNumber(phoneNumber);
+        user.setComment(comment);
+        userRepo.save(user);
+    }
+
+    @Override
+    public boolean userAdd(User user) {
+        User userFromDb = userRepo.findByUsername(user.getUsername());
+        if (userFromDb != null) {
+            return false;
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(UserRole.USER);
+        user.setActive(true);
+        user.setWorking(false);
+        userRepo.save(user);
+        return true;
     }
 
     @Override

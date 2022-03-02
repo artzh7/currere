@@ -63,7 +63,7 @@
                                     <select name="courierId">
                                         <#if order.courier??><#else><option disabled selected>Назначить курьера</option></#if>
                                         <#list couriers as c>
-                                            <option value="${c.id}" <#if order.courier?? && order.courier.id == c.id>selected</#if>>${c.displayedName}</option>
+                                            <option value="${c.id}" <#if order.courier?? && order.courier.id == c.id>selected</#if>>${c.displayedName!c.username}</option>
                                         </#list>
                                     </select>
                                 </label>
@@ -75,24 +75,24 @@
                 <#if role == "admin">
                     <td>
                         <#if order.orderStatus.name() == "ACCEPTED">
-                            <form hidden id="appointOnRandom" method="post" action="/admin/orders/appointOnRandom">
+                            <form hidden id="appointOnRandom${order.id}" method="post" action="/admin/orders/appointOnRandom">
                                 <input type="hidden" name="_csrf" value="${_csrf.token}">
                                 <input type="hidden" name="orderId" value="${order.id}">
                             </form>
-                            <span><input form="appointOnRandom" type="submit" title="Назначить автоматически" value="✅"></span>
+                            <span><input form="appointOnRandom${order.id}" type="submit" title="Назначить автоматически" value="✅"></span>
                         </#if>
                         <#if (order.orderStatus.name() != "CANCELLED") && (order.orderStatus.name() != "FINISHED")>
-                            <form hidden id="cancel" method="post" action="/admin/orders/cancel">
+                            <form hidden id="cancel${order.id}" method="post" action="/admin/orders/cancel">
                                 <input type="hidden" name="_csrf" value="${_csrf.token}">
                                 <input type="hidden" name="orderId" value="${order.id}">
                             </form>
-                            <span><input form="cancel" type="submit" title="Отменить заказ" value="⭕"></span>
+                            <span><input form="cancel${order.id}" type="submit" title="Отменить заказ" value="⭕"></span>
                         </#if>
-                        <form hidden id="delete" method="post" action="/admin/orders/delete">
+                        <form hidden id="delete${order.id}" method="post" action="/admin/orders/delete">
                             <input type="hidden" name="_csrf" value="${_csrf.token}">
                             <input type="hidden" name="orderId" value="${order.id}">
                         </form>
-                        <span><input form="delete" type="submit" title="УДАЛИТЬ заказ" value="🛑"></span>
+                        <span><input form="delete${order.id}" type="submit" title="УДАЛИТЬ заказ" value="🛑"></span>
                     </td>
                 </#if>
             </tr>

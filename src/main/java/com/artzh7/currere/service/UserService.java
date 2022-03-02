@@ -10,6 +10,11 @@ public interface UserService {
     List<User> getWorkingCouriers();
 
     void save(User user);
+
+    boolean userSaveMain(User user, String username, String password1, String password2, String role);
+    void userSaveDetails(User user, String displayedName, String address, String phoneNumber, String comment);
+    boolean userAdd(User user);
+
     void delete(User user);
     void shift(User user, OrderService orderService) throws Exception;
 }

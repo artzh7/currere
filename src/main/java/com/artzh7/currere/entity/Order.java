@@ -27,7 +27,6 @@ public class Order {
     private String restaurantName;
     private String restaurantAddress;
     private String restaurantPhoneNumber;
-    @Column(columnDefinition = "TEXT")
     private String restaurantComment;
 
     private String clientAddress;

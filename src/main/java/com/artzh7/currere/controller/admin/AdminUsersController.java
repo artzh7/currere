@@ -28,21 +28,15 @@ public class AdminUsersController {
             @RequestParam String role,
             @RequestParam("userId") User user,
             Model model) {
-        if (!password1.isBlank() && !password2.isBlank()) {
-            if (!password1.equals(password2)) {
-                model.addAttribute("message", "Пароли не совпадают");
-                model.addAttribute("user", user);
-                model.addAttribute("roles", UserRole.values());
-                return "admin/userEdit";
-            } else {
-                user.setPassword(password1);
-            }
+        boolean successfulUserSaveMain = userService.userSaveMain(user, username, password1, password2, role);
+        if (!successfulUserSaveMain) {
+            model.addAttribute("message", "Пароли не совпадают");
+            model.addAttribute("user", user);
+            model.addAttribute("roles", UserRole.values());
+            return "admin/userEdit";
+        } else {
+            return "redirect:/admin/users";
         }
-        user.setUsername(username);
-        user.setRole(UserRole.valueOf(role));
-
-        userService.save(user);
-        return "redirect:/admin/users";
     }
 
     @PostMapping("/saveDetails")
@@ -51,12 +45,8 @@ public class AdminUsersController {
             @RequestParam String displayedName,
             @RequestParam String address,
             @RequestParam String phoneNumber,
-            @RequestParam String comment) {
-        user.setDisplayedName(displayedName);
-        user.setAddress(address);
-        user.setPhoneNumber(phoneNumber);
-        user.setComment(comment);
-        userService.save(user);
+            @RequestParam(required = false) String comment) {
+        userService.userSaveDetails(user, displayedName, address, phoneNumber, comment);
         return "redirect:/admin/users";
     }
 
@@ -80,15 +70,12 @@ public class AdminUsersController {
 
     @PostMapping("/add")
     public String userAdd(User user, Model model) {
-        User userFromDb = userService.findByUsername(user.getUsername());
-        if (userFromDb != null) {
+        boolean successfulUserAdd = userService.userAdd(user);
+        if (!successfulUserAdd) {
             model.addAttribute("message", "Пользователь существует!");
             return "admin/userAdd";
+        } else {
+            return "redirect:/admin/users";
         }
-        user.setRole(UserRole.USER);
-        user.setActive(true);
-        user.setWorking(false);
-        userService.save(user);
-        return "redirect:/admin/users";
     }
 }

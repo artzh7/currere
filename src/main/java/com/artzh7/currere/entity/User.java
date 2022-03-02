@@ -30,7 +30,6 @@ public class User implements UserDetails {
     private String displayedName;
     private String phoneNumber;
     private String address;
-    @Column(columnDefinition = "TEXT")
     private String comment;
 
     @Override
