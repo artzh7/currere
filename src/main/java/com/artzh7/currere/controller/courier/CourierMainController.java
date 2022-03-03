@@ -32,7 +32,8 @@ public class CourierMainController {
             userService.shift(user, orderService);
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
+            return "courier/main";
         }
-        return "courier/main";
+        return "redirect:/courier";
     }
 }

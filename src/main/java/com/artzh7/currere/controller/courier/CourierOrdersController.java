@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -43,5 +41,11 @@ public class CourierOrdersController {
 
         model.addAttribute("order", order);
         return "courier/orderInfo";
+    }
+
+    @PostMapping("/nextStatus")
+    public String nextStatus(@RequestParam(name = "orderId") Order order) {
+        orderService.nextStatus(order);
+        return "redirect:/courier/orders";
     }
 }

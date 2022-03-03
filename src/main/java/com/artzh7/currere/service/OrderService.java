@@ -19,4 +19,5 @@ public interface OrderService {
     void appoint(Order order, User courier, UserService userService);
     void cancel(Order order);
     void delete(Order order);
+    void nextStatus(Order order);
 }

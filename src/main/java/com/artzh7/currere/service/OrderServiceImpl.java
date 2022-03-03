@@ -108,4 +108,24 @@ public class OrderServiceImpl implements OrderService {
     public void delete(Order order) {
         orderRepo.delete(order);
     }
+
+    @Override
+    public void nextStatus(Order order) {
+        if (order.getOrderStatus() != OrderStatus.FINISHED) {
+            OrderStatus nextStatus = order.getOrderStatus();
+            switch (nextStatus) {
+                case IN_WORK:
+                    nextStatus = OrderStatus.COURIER_ARRIVED;
+                    break;
+                case COURIER_ARRIVED:
+                    nextStatus = OrderStatus.IN_TRANSIT;
+                    break;
+                case IN_TRANSIT:
+                    nextStatus = OrderStatus.FINISHED;
+                    break;
+            }
+            order.setOrderStatus(nextStatus);
+            orderRepo.save(order);
+        }
+    }
 }

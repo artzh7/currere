@@ -3,7 +3,6 @@ package com.artzh7.currere.repo;
 import com.artzh7.currere.entity.Order;
 import com.artzh7.currere.entity.OrderStatus;
 import com.artzh7.currere.entity.User;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

@@ -30,7 +30,7 @@
             <#if role == "restaurant" || role == "admin">
                 <th>Курьер</th>
             </#if>
-            <#if role == "admin">
+            <#if role == "admin" || role == "courier">
                 <th>Действия</th>
             </#if>
         </tr>
@@ -46,16 +46,19 @@
                 <td>${order.clientAddress}</td>
                 <td>${order.clientPhoneNumber}</td>
                 <td>${order.orderComment}</td>
-                <td>
-                    <#if role = "restaurant" || (role = "admin"
-                                                && (order.orderStatus.name() == "FINISHED"
-                                                    || order.orderStatus.name() == "CANCELLED"))>
+
+                <#if role = "restaurant" || (role = "admin"
+                                            && (order.orderStatus.name() == "FINISHED"
+                                                || order.orderStatus.name() == "CANCELLED"))>
+                    <td>
                         <#if order.courier??>
                             ${order.courier.displayedName}
                         <#else>
                             Не назначен
                         </#if>
-                    <#elseif role = "admin">
+                    </td>
+                <#elseif role = "admin">
+                    <td>
                         <form action="/admin/orders/appointOnCourier" method="post">
                             <input type="hidden" name="_csrf" value="${_csrf.token}">
                             <input type="hidden" name="orderId" value="${order.id}">
@@ -70,8 +73,9 @@
                             </span>
                             <span><input type="submit" title="Назначить на выбранного курьера" value="✔️"/></span>
                         </form>
-                    </#if>
-                </td>
+                    </td>
+                </#if>
+
                 <#if role == "admin">
                     <td>
                         <#if order.orderStatus.name() == "ACCEPTED">
@@ -93,6 +97,14 @@
                             <input type="hidden" name="orderId" value="${order.id}">
                         </form>
                         <span><input form="delete${order.id}" type="submit" title="УДАЛИТЬ заказ" value="🛑"></span>
+                    </td>
+                <#elseif role == "courier" && order.orderStatus.name() != "FINISHED">
+                    <td>
+                        <form hidden id="nextStatus${order.id}" method="post" action="/courier/orders/nextStatus">
+                            <input type="hidden" name="_csrf" value="${_csrf.token}">
+                            <input type="hidden" name="orderId" value="${order.id}">
+                        </form>
+                        <span><input form="nextStatus${order.id}" type="submit" title="Следующий статус" value="➡️"></span>
                     </td>
                 </#if>
             </tr>
