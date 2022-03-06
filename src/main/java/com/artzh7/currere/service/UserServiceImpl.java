@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public boolean userSaveMain(User user, String username, String password1, String password2, String role) {
-        if (!password1.isBlank() && !password2.isBlank()) {
+        if (!password1.isEmpty() && !password2.isEmpty()) {
             if (!password1.equals(password2)) {
                 return false;
             } else {

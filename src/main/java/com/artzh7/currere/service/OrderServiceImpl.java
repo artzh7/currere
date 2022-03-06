@@ -8,9 +8,7 @@ import com.artzh7.currere.repo.OrderRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -39,7 +37,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getCourierCurrentOrderList(User courier) {
-        Set<OrderStatus> ignoringOrderStatuses = Set.of(OrderStatus.CANCELLED, OrderStatus.FINISHED);
+        Set<OrderStatus> ignoringOrderStatuses = new HashSet<>();
+        ignoringOrderStatuses.add(OrderStatus.CANCELLED);
+        ignoringOrderStatuses.add(OrderStatus.FINISHED);
         return orderRepo.findAllByCourierAndOrderStatusNotIn(courier, ignoringOrderStatuses);
     }
 
